@@ -20,29 +20,38 @@ type Catalog struct {
 	Shop struct {
 		Name   string `xml:"name"`
 		Offers struct {
-			Offer []struct {
-				Available   bool     `xml:"available,attr"`
-				GroupID     int      `xml:"group_id,attr"`
-				ID          int      `xml:"id,attr"`
-				URL         string   `xml:"url"`
-				Price       int      `xml:"price"`
-				OldPrice    int      `xml:"old_price"`
-				Currency    string   `xml:"currencyId"`
-				Pictures    []string `xml:"picture"`
-				Name        string   `xml:"name"`
-				Description string   `xml:"description"`
-				Vendor      string   `xml:"vendor"`
-				Sku         string   `xml:"vendorCode"`
-				CategoryID  int      `xml:"categoryId"`
-				Params      []Param  `xml:"param"`
-			} `xml:"offer"`
+			Offer []Offer `xml:"offer"`
 		} `xml:"offers"`
 	} `xml:"shop"`
+}
+
+type Offer struct {
+	Available   bool     `xml:"available,attr"`
+	GroupID     int      `xml:"group_id,attr"`
+	ID          int      `xml:"id,attr"`
+	URL         string   `xml:"url"`
+	Price       int      `xml:"price"`
+	OldPrice    int      `xml:"old_price"`
+	Currency    string   `xml:"currencyId"`
+	Pictures    []string `xml:"picture"`
+	Name        string   `xml:"name"`
+	Description string   `xml:"description"`
+	Vendor      string   `xml:"vendor"`
+	Sku         string   `xml:"vendorCode"`
+	CategoryID  int      `xml:"categoryId"`
+	Params      []Param  `xml:"param"`
 }
 
 type Param struct {
 	Name  string `xml:"name,attr"`
 	Value string `xml:",chardata"`
+}
+
+type Skirt struct {
+	Sku    string
+	Name   string
+	Season string
+	Offer  Offer
 }
 
 func main() {
@@ -100,8 +109,8 @@ func Parsexml(filestr string) *Catalog {
 	return &catalog
 }
 
-func MapCategory(csvData [][]string, catalog *Catalog) map[string][]any {
-	skirts := make(map[string][]any)
+func MapCategory(csvData [][]string, catalog *Catalog) map[string]Skirt {
+	skirts := make(map[string]Skirt)
 
 	for _, csvRow := range csvData {
 		name := csvRow[2]
@@ -110,11 +119,13 @@ func MapCategory(csvData [][]string, catalog *Catalog) map[string][]any {
 		for _, offer := range catalog.Shop.Offers.Offer {
 			for _, param := range offer.Params {
 				if offer.Sku == sku && param.Name == "Вид" && param.Value == "Юбки" {
-					skirts[sku] = append(skirts[sku],
-						name,
-						sku,
-						season,
-						offer)
+					skirt := Skirt{
+						Sku:    sku,
+						Name:   name,
+						Season: season,
+						Offer:  offer,
+					}
+					skirts[sku] = skirt
 				}
 			}
 		}

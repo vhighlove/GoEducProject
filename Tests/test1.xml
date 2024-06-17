@@ -1,0 +1,74 @@
+<shop>
+<name>Market</name>
+<categories>
+<category id="28" parentId="19">Юбки</category>
+</categories>
+<offers>
+<offer available="true" group_id="68713"  id="1375930">
+<url>https://issaplus.com/yubka-11094-11094_chernyy</url>
+<price>548</price>
+<old_price>783</old_price>
+<currencyId>UAH</currencyId>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157499/157499.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157500/157500.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157501/157501.602x0.jpg</picture>
+<name>Юбки ISSA PLUS 11094  S черный</name>
+<description><![CDATA[<p>Элегантная черная юбка на молнии с высокой посадкой и втачным поясом оснащена потайной резинкой на спинке. Изделие кроя карандаш с миди длиной и декоративным запахом образующим клин.</p>]]></description>
+<vendor>ISSA PLUS</vendor>
+<vendorCode>11094_черный</vendorCode>
+<categoryId>28</categoryId>
+<param name="Стиль">Деловой</param>
+<param name="Вид">Юбки</param>
+<param name="Размер">S</param>
+<param name="Цвет">черный</param>
+<param name="Коллекция">Ultrafashionable</param>
+<param name="Состав">50% хлопок, 50% полиэстер</param>
+<param name="Материал">Стрейч коттон</param>
+<param name="Замеры">Талия: S (60), M (64), L (68), XL (72),  Бедра: S (92), M (96), L (100), XL (104),   Длина - 72. Ткань: Низкой эластичности</param>
+</offer>
+<!-- <offer available="true" group_id="68713"  id="1386662">
+<url>https://issaplus.com/yubka-11094-11094_chernyy</url>
+<price>548</price>
+<old_price>783</old_price>
+<currencyId>UAH</currencyId>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157499/157499.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157500/157500.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157501/157501.602x0.jpg</picture>
+<name>Юбки ISSA PLUS 11094  M черный</name>
+<description><![CDATA[<p>Элегантная черная юбка на молнии с высокой посадкой и втачным поясом оснащена потайной резинкой на спинке. Изделие кроя карандаш с миди длиной и декоративным запахом образующим клин.</p>]]></description>
+<vendor>ISSA PLUS</vendor>
+<vendorCode>11094_черный</vendorCode>
+<categoryId>28</categoryId>
+<param name="Стиль">Деловой</param>
+<param name="Вид">Юбки</param>
+<param name="Размер">M</param>
+<param name="Цвет">черный</param>
+<param name="Коллекция">Ultrafashionable</param>
+<param name="Состав">50% хлопок, 50% полиэстер</param>
+<param name="Материал">Стрейч коттон</param>
+<param name="Замеры">Талия: S (60), M (64), L (68), XL (72),  Бедра: S (92), M (96), L (100), XL (104),   Длина - 72. Ткань: Низкой эластичности</param>
+</offer>
+<offer available="true" group_id="68713"  id="1386663">
+<url>https://issaplus.com/yubka-11094-11094_chernyy</url>
+<price>548</price>
+<old_price>783</old_price>
+<currencyId>UAH</currencyId>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157499/157499.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157500/157500.602x0.jpg</picture>
+<picture>https://issaplus.com/wa-data/public/shop/products/13/87/68713/images/157501/157501.602x0.jpg</picture>
+<name>Юбки ISSA PLUS 11094  L черный</name>
+<description><![CDATA[<p>Элегантная черная юбка на молнии с высокой посадкой и втачным поясом оснащена потайной резинкой на спинке. Изделие кроя карандаш с миди длиной и декоративным запахом образующим клин.</p>]]></description>
+<vendor>ISSA PLUS</vendor>
+<vendorCode>11094_черный</vendorCode>
+<categoryId>28</categoryId>
+<param name="Стиль">Деловой</param>
+<param name="Вид">Юбки</param>
+<param name="Размер">L</param>
+<param name="Цвет">черный</param>
+<param name="Коллекция">Ultrafashionable</param>
+<param name="Состав">50% хлопок, 50% полиэстер</param>
+<param name="Материал">Стрейч коттон</param>
+<param name="Замеры">Талия: S (60), M (64), L (68), XL (72),  Бедра: S (92), M (96), L (100), XL (104),   Длина - 72. Ткань: Низкой эластичности</param>
+</offer> -->
+</offers>
+</shop>

@@ -1,9 +1,3 @@
-// Задачка
-// Прочитать файл CSV, XML в которых будет лежать информация про товары.
-// В файле CSV нужно будет считать name и seasons, а в файле XML нужно будет считать остальные данные,
-// в итоге нужно сформеровать список продуктов. Общим полем для этих двух файлов будет поле "Артикул" (sku),
-// что бы мапить данные. Для начала будем парсить Категорию "Юбки". Результат кода загрузи на github пожалуйста,
-// что бы я там смог посмотреть.
 package main
 
 import (
@@ -47,86 +41,136 @@ type Param struct {
 	Value string `xml:",chardata"`
 }
 
-type Skirt struct {
-	Sku    string
+type csvDataForProduct struct {
 	Name   string
 	Season string
-	Offer  Offer
 }
+
+type Product struct {
+	Sku         string
+	Name        string
+	Season      string
+	Available   bool
+	GroupID     int
+	ID          int
+	URL         string
+	Price       int
+	OldPrice    int
+	Currency    string
+	Pictures    []string
+	OldXmlName  string
+	Description string
+	Vendor      string
+	CategoryID  int
+	Params      []Param
+}
+
+const skirtsCategoryId int = 28
 
 func main() {
-	csvFileData := Parsecsv("Files/2024.02.13.csv")
-	xmlFileData := Parsexml("Files/export_rozetka.xml")
-	skirts := MapCategory(csvFileData, xmlFileData)
-	for _, value := range skirts {
-		fmt.Println(value)
-	}
-}
+	// if len(os.Args) < 3 {
+	// 	fmt.Println("Usage: program_name <csv_file_path> <xml_file_path>")
+	// 	os.Exit(1)
+	// }
 
-func Parsecsv(filestr string) [][]string {
-	// Open
-	file, err := os.Open(filestr)
+	// csvFilePath := os.Args[1]
+	// xmlFilePath := os.Args[2]
+	csvFilePath := "Files/2024.02.13.csv"
+	xmlFilePath := "Files/export_rozetka.xml"
 
+	csvBytes, err := OpenFile(csvFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	xmlBytes, err := OpenFile(xmlFilePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	csvFileData, err := Parsecsv(csvBytes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	xmlFileData, err := Parsexml(xmlBytes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	skirts := MapCategory(csvFileData, xmlFileData)
+	for _, skirt := range skirts {
+		fmt.Println(skirt)
+	}
+}
+
+func OpenFile(filePath string) ([]byte, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
 	defer file.Close()
 
-	// Read + Parse
-	reader := csv.NewReader(file)
+	data, err := io.ReadAll(file)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func Parsecsv(data []byte) (map[string]csvDataForProduct, error) {
+	reader := csv.NewReader(bytes.NewReader(data))
 	reader.Comma = ';'
 	reader.LazyQuotes = true
 
-	data, err := reader.ReadAll()
+	records, err := reader.ReadAll()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return data[1:]
+
+	mapData := make(map[string]csvDataForProduct)
+	for _, row := range records {
+		name := row[2]
+		sku := row[4]
+		season := row[9]
+		mapData[sku] = csvDataForProduct{
+			Name:   name,
+			Season: season,
+		}
+	}
+	return mapData, nil
 }
 
-func Parsexml(filestr string) *Catalog {
-	// Open
-	file, err := os.Open(filestr)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer file.Close()
-
-	// Read + Parse
-	b, err := io.ReadAll(file)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func Parsexml(data []byte) (*Catalog, error) {
 	var catalog Catalog
-	err = xml.NewDecoder(bytes.NewReader(b)).Decode(&catalog)
+	err := xml.NewDecoder(bytes.NewReader(data)).Decode(&catalog)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return &catalog
+	return &catalog, nil
 }
 
-func MapCategory(csvData [][]string, catalog *Catalog) map[string]Skirt {
-	skirts := make(map[string]Skirt)
-
-	for _, csvRow := range csvData {
-		name := csvRow[2]
-		sku := csvRow[4]
-		season := csvRow[9]
-		for _, offer := range catalog.Shop.Offers.Offer {
-			for _, param := range offer.Params {
-				if offer.Sku == sku && param.Name == "Вид" && param.Value == "Юбки" {
-					skirt := Skirt{
-						Sku:    sku,
-						Name:   name,
-						Season: season,
-						Offer:  offer,
-					}
-					skirts[sku] = skirt
-				}
+func MapCategory(csvData map[string]csvDataForProduct, catalog *Catalog) map[string]Product {
+	skirts := make(map[string]Product)
+	for _, offer := range catalog.Shop.Offers.Offer {
+		if offer.CategoryID == skirtsCategoryId {
+			skirts[offer.Sku] = Product{
+				Sku:         offer.Sku,
+				Name:        csvData[offer.Sku].Name,
+				Season:      csvData[offer.Sku].Season,
+				Available:   offer.Available,
+				GroupID:     offer.GroupID,
+				ID:          offer.ID,
+				URL:         offer.URL,
+				Price:       offer.Price,
+				OldPrice:    offer.OldPrice,
+				Currency:    offer.Currency,
+				Pictures:    offer.Pictures,
+				OldXmlName:  offer.Name,
+				Description: offer.Description,
+				Vendor:      offer.Vendor,
+				CategoryID:  offer.CategoryID,
+				Params:      offer.Params,
 			}
 		}
 	}
